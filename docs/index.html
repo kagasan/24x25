@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>24x25</title>
+        <script type="text/javascript" src = "kagacanvas.js"></script>
+        <script type="text/javascript">
+            window.onload = function(){
+                var kgc = new KagaCanvas(520, 500, "view", "24x25");
+                var lst = "a";
+                function loop(){
+                    var tmp = document.forms.form.ta.value;
+                    if(tmp==lst)return;
+                    lst = tmp;
+                    tmp = tmp.split(/\r\n|\r|\n/);
+                    kgc.rectangle(0, 0, 520, 500, kgc.rgb(255,255,255) ,-1);
+                    kgc.rectangle(20, 0, 500, 500, kgc.rgb(0,255,0),3);
+                    for(var y=0;y<=500;y+=20){
+                        kgc.line(20,y,500,y,kgc.rgb(0,255,0),1);
+                    }
+                    for(var x=20;x<520;x+=20){
+                        kgc.line(x,0,x,500,kgc.rgb(0,255,0),1);
+                    }
+                    for(var i=0;i<25;i++){
+                        kgc.putText(0,i*20,""+(i+1),kgc.rgb(128,128,128));
+                    }
+                    var posy = 0;
+                    for(var i=0;i<tmp.length;i++){
+                        var posx=0;
+                        var ch = tmp[i].split("");
+                        for(var j=0;j<ch.length;j++){
+                            if(posx==24 && (ch[j]=="," || ch[j]=="." || ch[j]=="．" || ch[j]=="，" || ch[j]=="。" || ch[j]=="、")){
+
+                            }
+                            else if(posx>=24){
+                                posx=0;
+                                posy++;
+                            }
+                            kgc.putText(20+posx*20,posy*20,ch[j]);
+                            posx++;
+                        }
+                        posy++;
+                    }
+                }
+                setInterval(loop, 100);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="view"></div>
+        <form name="form"><textarea name="ta">　テキストエリアに書いた内容が用紙に表示されます．</textarea><br><textarea name="memo">memo</textarea></form>
+    </body>
+</html>
